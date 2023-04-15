@@ -6,6 +6,7 @@ import sys
 import argparse
 import re
 import json
+from find_publication_year import find_publication_year
 
 # Set up the OpenAI API client
 openai.api_key = os.getenv("OPENAI_API_KEY") or "your_api_key_here"
@@ -48,9 +49,14 @@ def is_valid_json_string(response):
 
 def json_response_to_filename_proposal(json_string):
     json_obj = json.loads(json_string)
+
     author = json_obj['author']
-    title = json_obj['title'].replace(" ","_")
-    proposal = author+'-'+title
+    title = json_obj['title']
+    year = find_publication_year(title,author)
+    if year is None:
+        year = 0000
+
+    proposal = str(year)+'-'+author+'-'+title.replace(" ","_")
     # Use regex to remove all special characters except "-" and "_"
     pattern = "[^a-zA-Z0-9-_]"
     clean_proposal = re.sub(pattern, "", proposal)

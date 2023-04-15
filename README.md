@@ -1,5 +1,35 @@
  # Research Paper Filename Proposer
-These helper scripts suport you in renaming your research paper pdf collection. The provided scripts extract the beginning of a paper as raw text and then utilize ChatGPT to find the last name of the first author and the paper title. Both are then used to suggest a new filename.
+These helper scripts suport you in renaming your research paper pdf collection. The provided scripts extract the beginning of a paper as raw text and then utilize `ChatGPT` to find the last name of the first author and the paper title. Both are then used to query the publication year using `api.crossref.org`. In total, this will suggest a filename with the scheme YEAR-AUTHOR-TITLE.
+
+You will need an OpenAI API key to run these scripts:
+1. Obtain an API key from OpenAI:
+   If you don't have an API key yet, you can sign up for one at the OpenAI website (https://beta.openai.com/signup/). Once you have signed up, you will find your API key on the OpenAI Dashboard (https://beta.openai.com/dashboard/api-keys/).
+
+2. Set the API key in your environment:
+   You have two options to set the API key:
+
+   Option A - Set the API key as an environment variable:
+   - On Unix-based systems (Linux or macOS), open your terminal and run the following command:
+     ```
+     export OPENAI_API_KEY=your_api_key_here
+     ```
+     Replace `your_api_key_here` with your actual API key.
+
+   - On Windows, open the Command Prompt and run the following command:
+     ```
+     setx OPENAI_API_KEY "your_api_key_here"
+     ```
+     Replace `your_api_key_here` with your actual API key.
+
+   Option B - Set the API key directly in the script:
+   - Open the script filename_proposer.py in a text editor and locate the following line:
+     ```
+     openai.api_key = os.getenv("OPENAI_API_KEY") or "your_api_key_here"
+     ```
+     Replace `your_api_key_here` with your actual API key, making sure to keep it within the quotes.
+
+With the API key set, you can now run the scripts, and they will be able to access the GPT model.
+
 
 ## rename_helper.py
 This scripts combines the filename_proposer.py with a pdf preview and a GUI that supports you in renaming your pdf files.
@@ -47,7 +77,7 @@ Replace `[folder_path]` with the actual path to the folder containing the PDF fi
 
  ## filename_proposer.py
 
- This script helps you to generate proposed filenames for research papers using the scheme AUTHOR-TITLE. It utilizes the `pdfplumber` library to extract text from the first page of a PDF and the OpenAI GPT model to identify the title and the last name of the first author.
+ This script helps you to generate proposed filenames for research papers using the scheme YEAR-AUTHOR-TITLE. It utilizes the `pdfplumber` library to extract text from the first page of a PDF and the OpenAI GPT model to identify the title and the last name of the first author.
 
  ### Dependencies
 
