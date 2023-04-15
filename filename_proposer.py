@@ -50,7 +50,11 @@ def json_response_to_filename_proposal(json_string):
     json_obj = json.loads(json_string)
     author = json_obj['author']
     title = json_obj['title'].replace(" ","_")
-    return author+'-'+title+'.pdf'
+    proposal = author+'-'+title
+    # Use regex to remove all special characters except "-" and "_"
+    pattern = "[^a-zA-Z0-9-_]"
+    clean_proposal = re.sub(pattern, "", proposal)
+    return clean_proposal+'.pdf'
 
 
 def get_proposal(pdf_path,output_json=False,verbose=True):
