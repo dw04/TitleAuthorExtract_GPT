@@ -1,5 +1,5 @@
  # Research Paper Filename Proposer
-These helper scripts helo you in renaming research paper pdf collection. The provided scripts extract the beginning of a paper as raw text and then utilize ChatGPT to find the last name of the first author and the paper title. Both are then used to suggest a new filename.
+These helper scripts suport you in renaming your research paper pdf collection. The provided scripts extract the beginning of a paper as raw text and then utilize ChatGPT to find the last name of the first author and the paper title. Both are then used to suggest a new filename.
 
  ## rename_helper.py
 
