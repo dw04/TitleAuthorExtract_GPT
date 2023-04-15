@@ -55,11 +55,15 @@ pip install tkinter pdf2image pillow
 1. Make sure the `filename_proposer` module is available in your project directory or Python path.
 2. Run the script from the command line, providing the folder path containing the PDF files as an argument:
 
-```bash
-python rename_helper.py [folder_path]
+```
+python rename_helper.py -f /path/to/folder/with/pdf/files
 ```
 
-Replace `[folder_path]` with the actual path to the folder containing the PDF files you want to process.
+3. If you want to automatically rename files without user confirmation, use the `--auto_rename` flag (use this option with caution):
+
+```
+python rename_helper.py -f /path/to/folder/with/pdf/files --auto_rename
+```
 
 3. A window will pop up displaying the first page preview of a PDF file, along with the current filename and the proposed new filename.
 

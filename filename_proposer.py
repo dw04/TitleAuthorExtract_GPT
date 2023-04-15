@@ -96,7 +96,7 @@ def print_proposal(filename,proposal):
     print("\n")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="A script to propose a filename for research papers with the scheme AUTHOR-TITLE.")
+    parser = argparse.ArgumentParser(description="A script to propose a filename for research papers with the scheme YEAR-AUTHOR-TITLE.")
     
     # Create a mutually exclusive group
     input_group = parser.add_mutually_exclusive_group(required=True)

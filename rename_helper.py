@@ -5,6 +5,7 @@ from tkinter import messagebox
 from pdf2image import convert_from_path
 from PIL import Image, ImageTk
 import filename_proposer
+import argparse
 
 def pdf_preview(pdf_path, output_path):
     images = convert_from_path(pdf_path)
@@ -12,15 +13,18 @@ def pdf_preview(pdf_path, output_path):
     #first_page_image.save(output_path)
     return first_page_image
 
+def rename_file(folder_path,old_filename,new_filename):
+    print("Renaming ",old_filename,"to",new_filename)
+    old_file = os.path.join(folder_path,old_filename)
+    new_file = os.path.join(folder_path,new_filename)
+    os.rename(old_file,new_file)
+
 def display_preview(image, file_name,folder_path, proposed_filename, max_width=800, max_height=800):
     def close():
         window.destroy()
     
     def yes():
-        print("Renaming ",file_name,"to",proposed_filename)
-        old_file = os.path.join(folder_path,file_name)
-        new_file = os.path.join(folder_path,proposed_filename)
-        os.rename(old_file,new_file)
+        rename_file(folder_path,file_name,proposed_filename)
         close()
 
     def no():
@@ -59,21 +63,26 @@ def display_preview(image, file_name,folder_path, proposed_filename, max_width=8
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python rename_helper.py [folder_path]")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="A script for renaming research papers with the scheme YEAR-AUTHOR-TITLE.pdf ")
+    parser.add_argument("-f","--folder", type=str, help="Folder path that contains pdf files.",required=True)
+    parser.add_argument("--auto_rename",help="Automatically rename without user confirmation. Be careful!",action="store_true")
 
-    folder_path = sys.argv[1]
+    args = parser.parse_args()
+
+    folder_path = args.folder
 
     for file in os.listdir(folder_path):
         if file.lower().endswith(".pdf"):
             file_path = os.path.join(folder_path, file)
-            print(f"Previewing first page of {file}")
-            output_path = os.path.join(folder_path, f"{os.path.splitext(file)[0]}_preview.jpg")
-            preview_image = pdf_preview(file_path, output_path)
             proposed_filename = filename_proposer.get_proposal(file_path,verbose=False)
             if proposed_filename:
-                display_preview(preview_image, file, folder_path, proposed_filename)
+                if args.auto_rename:
+                    rename_file(folder_path,file,proposed_filename)
+                else:
+                    print(f"Previewing first page of {file}")
+                    output_path = os.path.join(folder_path, f"{os.path.splitext(file)[0]}_preview.jpg")
+                    preview_image = pdf_preview(file_path, output_path)
+                    display_preview(preview_image, file, folder_path, proposed_filename)
             else:
                 print("Error: Could not find proposal for ",file_path)
 

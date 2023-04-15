@@ -11,12 +11,15 @@ def find_publication_year(title, author):
     response = requests.get(url, params=params)
     data = response.json()
     
-    if data["status"] == "ok" and data["message"]["total-results"] > 0:
-        paper = data["message"]["items"][0]
-        return paper["published-print"]["date-parts"][0][0]
-    else:
+    try:
+        if data["status"] == "ok" and data["message"]["total-results"] > 0:
+            paper = data["message"]["items"][0]
+            return paper["published-print"]["date-parts"][0][0]
+        else:
+            return None
+    except Exception as e:
         return None
-    
+
 if __name__ == "__main__":
     # Example usage
     title = "Localization with sliding window factor graphs on third-party maps for automated driving"
