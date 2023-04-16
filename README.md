@@ -12,7 +12,7 @@ These helper scripts support you in renaming your research paper pdf collection.
 You will need an OpenAI API key to run these scripts:
 
 1. Obtain an API key from OpenAI:
-   If you don't have an API key yet, you can sign up for one at the OpenAI website (https://beta.openai.com/signup/). Once you have signed up, you will find your API key on the OpenAI Dashboard (https://beta.openai.com/dashboard/api-keys/).
+   If you don't have an API key yet, you can sign up for one at the OpenAI website (https://platform.openai.com/signup). Once you have signed up, you will find your API key on the OpenAI Dashboard (https://platform.openai.com/account/api-keys).
 
 2. Set the API key in your environment:
    You have two options to set the API key:
