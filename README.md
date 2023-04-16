@@ -1,6 +1,6 @@
 # Research Paper Filename Proposer
 
-These helper scripts support you in renaming your research paper pdf collection. The provided scripts extract the beginning of a paper as raw text and then utilize `ChatGPT` to find the last name of the first author and the paper title. Both are then used to query the publication year using `api.crossref.org`. In total, this will suggest a filename with the scheme YEAR-AUTHOR-TITLE.
+These helper scripts support you in renaming your research paper pdf collection. The provided scripts extract the beginning of a paper as raw text and then utilize `ChatGPT` to find the last name of the first author and the paper title. Both are then used to query the publication year using `api.crossref.org`. In total, this will suggest a filename with the scheme Year-Author-Title.pdf
 
 #### Known Limitations
 
