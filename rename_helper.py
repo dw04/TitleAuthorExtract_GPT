@@ -72,7 +72,7 @@ if __name__ == "__main__":
     folder_path = args.folder
 
     for file in os.listdir(folder_path):
-        if file.lower().endswith(".pdf"):
+        if file.lower().endswith(".pdf") and not filename_proposer.is_valid_filename(file):
             file_path = os.path.join(folder_path, file)
             proposed_filename = filename_proposer.get_proposal(file_path,verbose=False)
             if proposed_filename:

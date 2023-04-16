@@ -56,10 +56,14 @@ def json_response_to_filename_proposal(json_string):
     if year is None:
         year = 0000
 
-    proposal = str(year)+'-'+author+'-'+title.replace(" ","_")
+    # Use regex to remove all special characters except whitespaces
+    clean_title = re.sub("[^a-zA-Z0-9\\s]", "", title)
+    # Use regex to remove all subsequent whitespaces
+    clean_title =  re.sub("\\s+", " ", clean_title)
+
+    proposal = str(year)+'-'+author+'-'+clean_title.replace(" ","_")
     # Use regex to remove all special characters except "-" and "_"
-    pattern = "[^a-zA-Z0-9-_]"
-    clean_proposal = re.sub(pattern, "", proposal)
+    clean_proposal = re.sub("[^a-zA-Z0-9-_]", "", proposal)
     return clean_proposal+'.pdf'
 
 
@@ -78,14 +82,21 @@ def get_proposal(pdf_path,output_json=False,verbose=True):
             print("ChatGPT response not valid! Response was: \n \n",response,"\n \n")
             print("Used pdf text:\n",first_page_text)
     return None
+
+def is_valid_filename(filename):
+    # Check if filename is in the format Year-Author-Title.pdf
+    pattern = r"^\d{4}-[A-Za-z]+-([A-Za-z0-9]+_)*[A-Za-z0-9]+.pdf$"
+    return bool(re.match(pattern, filename))
     
 def iterate_folder(pdf_folder,output_json=False):
     for pdf_file in os.listdir(pdf_folder):
-        if pdf_file.endswith('.pdf'):
-            #print(" --- ", pdf_file  ," --- ")
+        if pdf_file.lower().endswith(".pdf") and not is_valid_filename(pdf_file):
+            print("Processing: ", pdf_file)
             pdf_path = os.path.join(pdf_folder, pdf_file)
             filename_proposal = get_proposal(pdf_path,output_json)
             print_proposal(pdf_path,filename_proposal)
+        else:
+            print("Already valid:",pdf_file)
 
 def print_proposal(filename,proposal):
     print(filename)
