@@ -7,19 +7,55 @@ from PIL import Image, ImageTk
 import filename_proposer
 import argparse
 
-def pdf_preview(pdf_path, output_path):
+def pdf_preview(pdf_path):
+    """
+    Generate a preview of the first page of a PDF file as an image.
+
+    Args:
+        pdf_path (str): The path to the PDF file.
+
+    Returns:
+        PIL.Image: An image object representing the first page of the PDF.
+    """
     images = convert_from_path(pdf_path)
     first_page_image = images[0]
-    #first_page_image.save(output_path)
     return first_page_image
 
 def rename_file(folder_path,old_filename,new_filename):
-    print("Renaming ",old_filename,"to",new_filename)
+    """
+    Rename a file in the specified folder.
+
+    Args:
+        folder_path (str): The path to the folder containing the file to be renamed.
+        old_filename (str): The current filename.
+        new_filename (str): The new filename.
+
+    Returns:
+        None
+    """
     old_file = os.path.join(folder_path,old_filename)
     new_file = os.path.join(folder_path,new_filename)
+    if os.path.exists(new_file):
+        print("Can not rename ",old_filename, " -> New filename already exists: ", new_file)
+        return
+    print("Renaming ",old_filename,"to",new_filename)
     os.rename(old_file,new_file)
 
 def display_preview(image, file_name,folder_path, proposed_filename, max_width=800, max_height=800):
+    """
+    Display a preview of an image in a window with buttons to rename the file or skip it.
+
+    Args:
+        image (PIL.Image): The image to display in the window.
+        file_name (str): The current filename of the image file.
+        folder_path (str): The path to the folder containing the image file.
+        proposed_filename (str): The proposed new filename for the image file.
+        max_width (int, optional): The maximum width of the displayed image. Defaults to 800.
+        max_height (int, optional): The maximum height of the displayed image. Defaults to 800.
+
+    Returns:
+        None
+    """
     def close():
         window.destroy()
     
@@ -74,15 +110,16 @@ if __name__ == "__main__":
     for file in os.listdir(folder_path):
         if file.lower().endswith(".pdf") and not filename_proposer.is_valid_filename(file):
             file_path = os.path.join(folder_path, file)
-            proposed_filename = filename_proposer.get_proposal(file_path,verbose=False)
+            proposed_filename = filename_proposer.get_proposal(file_path)
             if proposed_filename:
                 if args.auto_rename:
                     rename_file(folder_path,file,proposed_filename)
                 else:
                     print(f"Previewing first page of {file}")
-                    output_path = os.path.join(folder_path, f"{os.path.splitext(file)[0]}_preview.jpg")
-                    preview_image = pdf_preview(file_path, output_path)
+                    preview_image = pdf_preview(file_path)
                     display_preview(preview_image, file, folder_path, proposed_filename)
             else:
-                print("Error: Could not find proposal for ",file_path)
+                print("Could not find proposal for ",file_path)
+        else:
+            print("Skipping",file)
 

@@ -1,6 +1,16 @@
 import requests
 
 def find_publication_year(title, author):
+    """
+    Find the publication year of a research paper using the CrossRef API.
+
+    Args:
+        title (str): The title of the research paper.
+        author (str): The author's last name.
+
+    Returns:
+        int: The publication year if the paper is found, None otherwise.
+    """
     url = "https://api.crossref.org/works"
     params = {
         "query.title": title,
@@ -9,9 +19,9 @@ def find_publication_year(title, author):
     }
     
     response = requests.get(url, params=params)
-    data = response.json()
     
     try:
+        data = response.json()
         if data["status"] == "ok" and data["message"]["total-results"] > 0:
             paper = data["message"]["items"][0]
             return paper["published-print"]["date-parts"][0][0]
