@@ -39,24 +39,24 @@ You will need an OpenAI API key to run these scripts:
 
 ## Scripts
 
+#### Requirements
+
+To run the scripts, you need the following Python packages:
+
+- pdf2image
+- pdfplumber
+- openai
+
+You can install these packages using pip from this folder:
+
+```bash
+pip install -r requirements.txt
+```
+
 ### rename_helper.py
 
 This script combines the filename_proposer.py with a pdf preview and a GUI that supports you in renaming your pdf files.
 
-#### Requirements
-
-To run this script, you need the following Python packages:
-
-- tkinter
-- pdf2image
-- PIL (Python Imaging Library)
-- filename_proposer (see below)
-
-You can install these packages using pip:
-
-```bash
-pip install tkinter pdf2image pillow
-```
 
 #### How to Use
 
@@ -85,21 +85,6 @@ python rename_helper.py -f /path/to/folder/with/pdf/files --auto_rename
 ### filename_proposer.py
 
 This script helps you to generate proposed filenames for research papers using the scheme YEAR-AUTHOR-TITLE. It utilizes the `pdfplumber` library to extract text from the first page of a PDF and the OpenAI GPT model to identify the title and the last name of the first author.
-
-#### Dependencies
-
-- pdfplumber
-- openai
-- os
-- sys
-- argparse
-- re
-- json
-
-#### Installation
-
-1. Clone this repository.
-2. Install the required libraries by running `pip install pdfplumber openai`
 
 #### Usage
 
